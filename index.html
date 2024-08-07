@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game</title>
+</head>
+<body>
+    <h1>Rock Paper Scissors Game</h1>
+    <button id="startGameButton">Start Game</button>
+
+    <script>
+        // Declare and initialize the scores
+        let humanScore = 0;
+        let computerScore = 0;
+
+        // Function to get the computer's choice
+        function getComputerChoice() {
+            const choices = ["rock", "paper", "scissors"];
+            const randomIndex = Math.floor(Math.random() * choices.length);
+            return choices[randomIndex];
+        }
+
+        // Function to capitalize the first letter of a string
+        function capitalizeFirstLetter(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        // Function to play a single round
+        function playRound(humanChoice, computerChoice) {
+            humanChoice = humanChoice.toLowerCase().trim();
+            computerChoice = computerChoice.toLowerCase().trim();
+            
+            let result;
+            if (humanChoice === computerChoice) {
+                result = "It's a tie!";
+            } else if (
+                (humanChoice === "rock" && computerChoice === "scissors") ||
+                (humanChoice === "scissors" && computerChoice === "paper") ||
+                (humanChoice === "paper" && computerChoice === "rock")
+            ) {
+                result = "You win! " + capitalizeFirstLetter(humanChoice) + " beats " + capitalizeFirstLetter(computerChoice);
+                humanScore++;
+            } else {
+                result = "You lose! " + capitalizeFirstLetter(computerChoice) + " beats " + capitalizeFirstLetter(humanChoice);
+                computerScore++;
+            }
+            
+            console.log(result);
+            console.log("Human Score:", humanScore);
+            console.log("Computer Score:", computerScore);
+        }
+
+        // Function to play the entire game
+        function playGame() {
+            humanScore = 0;
+            computerScore = 0;
+
+            for (let round = 1; round <= 5; round++) {
+                let humanChoice = prompt("Round " + round + ": Enter your choice (rock, paper, or scissors)");
+                
+                // Ensure the input is valid
+                while (["rock", "paper", "scissors"].indexOf(humanChoice.toLowerCase().trim()) === -1) {
+                    humanChoice = prompt("Invalid choice. Please enter rock, paper, or scissors.");
+                }
+                
+                let computerChoice = getComputerChoice();
+                playRound(humanChoice, computerChoice);
+            }
+            
+            if (humanScore > computerScore) {
+                console.log("Congratulations! You win the game!");
+            } else if (computerScore > humanScore) {
+                console.log("Sorry! The computer wins the game.");
+            } else {
+                console.log("The game is a tie!");
+            }
+        }
+
+        // Add event listener to start the game when the button is clicked
+        document.getElementById("startGameButton").addEventListener("click", playGame);
+    </script>
+</body>
+</html>
+
